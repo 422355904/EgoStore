@@ -16,6 +16,7 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 @EnableDiscoveryClient
 public class EgoApiGateway {
 
+
     public static void main(String[] args) {
         SpringApplication.run(EgoApiGateway.class, args);
     }

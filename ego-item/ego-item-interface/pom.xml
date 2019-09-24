@@ -13,5 +13,17 @@
     <groupId>com.ego.service</groupId>
     <artifactId>ego-item-interface</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.ego.common</groupId>
+            <artifactId>ego-common</artifactId>
+            <version>${ego.latest.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>tk.mybatis</groupId>
+            <artifactId>mapper-spring-boot-starter</artifactId>
+            <version>${mapper.starter.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>
