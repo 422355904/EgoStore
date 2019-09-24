@@ -68,6 +68,16 @@ public class CategoryCtrl {
         }
     }
 
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteCategoryById(@PathVariable("id") Long id){
+        try {
+            categoryService.deleteCategoryById(id);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
 
     /**
      * 在你删完子节点后，怎么设置父节点的isParent为0？每次删除的时候都去查个数？感觉效率太低了。

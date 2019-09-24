@@ -44,5 +44,9 @@ public class CategoryService {
         category.setId(id);
         category.setName(name);
         categoryMapper.updateByPrimaryKeySelective(category);
+    } 
+
+    public void deleteCategoryById(Long id) {
+
     }
 }
