@@ -25,3 +25,4 @@ mybatis:
   configuration:
     log-impl:
       org.apache.ibatis.logging.stdout.StdOutImpl
+  type-aliases-package: com.ego.item.pojo       #pojo别名

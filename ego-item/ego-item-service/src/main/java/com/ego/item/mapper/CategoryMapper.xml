@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ego.item.mapper.CategoryMapper">
+
+    <!--SQL语句的id要和dao层方法对应，否则通过反射找不到该方法-->
+
+    <sql id="allcoln">
+       id,
+       name,
+       parentId,
+       isParent,
+       sort
+    </sql>
+
+    <resultMap id="categoryResultMap" type="Category">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="isParent" column="is_parent"/>
+        <result property="sort" column="sort"/>
+    </resultMap>
+
+    <!--SQL-->
+
+    <!--批删-->
+    <delete id="deleteCategories" parameterType="java.util.List">
+        delete from tb_category where parent_id in 
+        <foreach collection="categoryIdList" index="index" item="categoryId" open="(" separator="," close=");">
+            #{categoryId}
+        </foreach>
+    </delete>
+
+    <select id="getById" resultType="Category">
+        select * from ssm_user where id=#{id}
+    </select>
+
+    <insert id="add" parameterType="Category">
+        insert into ssm_user (<include refid="allcoln"/>) values (#{userName},#{password},#{name},#{age},#{sex},#{birthday},#{note},#{created},#{updated})
+    </insert>
+
+    <delete id="deleteById">
+        delete from ssm_user where id=#{id}
+    </delete>
+
+
+    <!--参数在map中传入SQL-->
+    <!--映射封装修改部门的参数表map-->
+
+
+</mapper>

@@ -29,7 +29,7 @@ public class CategoryCtrl {
      */
     @GetMapping("list")
     public ResponseEntity<List<Category>> findCategoryByID(@RequestParam("pid") Long id){
-        List<Category> categoryList= categoryService.findCategoryByID(id);
+        List<Category> categoryList= categoryService.findCategoryByPid(id);
         if (null==categoryList){
             return ResponseEntity.notFound().build();
         }else {
@@ -48,6 +48,7 @@ public class CategoryCtrl {
             categoryService.saveCategory(category);
             return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.noContent().build();
         }
     }
@@ -64,6 +65,7 @@ public class CategoryCtrl {
             categoryService.updateCategoryById(id,name);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
     }
@@ -74,6 +76,7 @@ public class CategoryCtrl {
             categoryService.deleteCategoryById(id);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
     }
@@ -81,5 +84,7 @@ public class CategoryCtrl {
 
     /**
      * 在你删完子节点后，怎么设置父节点的isParent为0？每次删除的时候都去查个数？感觉效率太低了。
+     *
+     * 操作一个新增类型的时候，由于没有渲染最新数据，会失败。
      */
 }

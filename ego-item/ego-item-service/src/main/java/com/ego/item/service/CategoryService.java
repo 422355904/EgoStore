@@ -20,9 +20,9 @@ public class CategoryService {
     @Autowired
     private CategoryMapper categoryMapper;
 
-    public List<Category> findCategoryByID(Long id) {
+    public List<Category> findCategoryByPid(Long pid) {
         Category category = new Category();
-        category.setParentId(id);
+        category.setParentId(pid);
         return categoryMapper.select(category);
     }
 
@@ -30,9 +30,11 @@ public class CategoryService {
     public void saveCategory(Category category) {
         //判断是否为父节点
         Category parentCategory = categoryMapper.selectByPrimaryKey(category.getParentId());
-        if (parentCategory.getIsParent()!=1){
-            parentCategory.setIsParent(1L);
-            categoryMapper.updateByPrimaryKeySelective(parentCategory);
+        if (null!=parentCategory) {
+            if (parentCategory.getIsParent() != 1) {
+                parentCategory.setIsParent(1L);
+                categoryMapper.updateByPrimaryKeySelective(parentCategory);
+            }
         }
         //保存新增种类
         categoryMapper.insertSelective(category);
@@ -44,9 +46,18 @@ public class CategoryService {
         category.setId(id);
         category.setName(name);
         categoryMapper.updateByPrimaryKeySelective(category);
-    } 
+    }
 
+    @Transactional
     public void deleteCategoryById(Long id) {
-
+        Category category = categoryMapper.selectByPrimaryKey(id);
+        //是否为父节点
+        if (category.getIsParent()==1){//是
+            List<Category> categoryList = findCategoryByPid(id);
+            for (Category cg : categoryList) {
+                deleteCategoryById(cg.getId());
+            }
+        }
+        categoryMapper.delete(category);
     }
 }
