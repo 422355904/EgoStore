@@ -70,11 +70,26 @@ public class CategoryCtrl {
         }
     }
 
+    /**
+     * 删除种类
+     * @param id
+     * @return
+     */
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteCategoryById(@PathVariable("id") Long id){
         try {
             categoryService.deleteCategoryById(id);
             return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @GetMapping("bid/{bid}")
+    public ResponseEntity<List<Category>>findCategoryByBid(@PathVariable("bid")Long bid){
+        try {
+            List<Category>categories=categoryService.findCategoryByBid(bid);
+            return ResponseEntity.ok(categories);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
@@ -82,9 +97,5 @@ public class CategoryCtrl {
     }
 
 
-    /**
-     * 在你删完子节点后，怎么设置父节点的isParent为0？每次删除的时候都去查个数？感觉效率太低了。
-     *
-     * 操作一个新增类型的时候，由于没有渲染最新数据，会失败。
-     */
+
 }

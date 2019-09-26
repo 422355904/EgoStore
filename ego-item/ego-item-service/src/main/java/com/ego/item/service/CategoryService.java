@@ -60,4 +60,9 @@ public class CategoryService {
         }
         categoryMapper.delete(category);
     }
+
+    public List<Category> findCategoryByBid(Long bid) {
+        List<Category>categoryList=categoryMapper.findCategoryByBid(bid);
+        return categoryList;
+    }
 }

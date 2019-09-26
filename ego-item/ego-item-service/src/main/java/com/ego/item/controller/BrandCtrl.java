@@ -42,10 +42,46 @@ public class BrandCtrl {
             return ResponseEntity.ok(pageResult);
     }
 
+    /**
+     * 新增品牌
+     * @param brand
+     * @param cids
+     * @return
+     */
     @PostMapping
-    public ResponseEntity<Void>saveBrand(Brand brand,@RequestParam("cids") Integer[] cids){
+    public ResponseEntity<Void>saveBrand(Brand brand,@RequestParam("cids") Long[] cids){
         try {
             brandService.saveBrand(brand,cids);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    /**
+     * 修改品牌
+     * @return
+     */
+    @PutMapping
+    public ResponseEntity<Void>updateBrand(Brand brand,@RequestParam("cids")Long[] cids){
+        try {
+            brandService.updateBrand(brand,cids);
+            return  ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    /**
+     * 删除品牌
+     * @param bid
+     * @return
+     */
+    @DeleteMapping
+    public ResponseEntity<Void>deleteBrand(@RequestParam("id")Long bid){
+        try {
+            brandService.deleteBrand(bid);
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             e.printStackTrace();

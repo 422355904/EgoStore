@@ -43,14 +43,37 @@ public class BrandService {
     }
 
     @Transactional
-    public void saveBrand(Brand brand, Integer[] cids) {
+    public void saveBrand(Brand brand, Long[] cids) {
         //新增品牌
         brandMapper.insert(brand);
         //新增中间表，代码维护级联
         if (null != cids) {
-            for (Integer cid : cids) {
+            for (Long cid : cids) {
                 brandMapper.saveBrandCategory(cid, brand.getId());
             }
         }
+    }
+
+    @Transactional
+    public void updateBrand(Brand brand, Long[] cids) {
+        /*Example example = new Example(Brand.class);
+        example.createCriteria().andEqualTo("id", brand.getId());*/
+        brandMapper.updateByPrimaryKeySelective(brand);
+        if (null != cids) {
+            //先删
+            for (Long cid : cids) {
+                brandMapper.deleteBrandCategory(brand.getId());
+            }
+            //再增
+            for (Long cid : cids) {
+                brandMapper.saveBrandCategory(cid, brand.getId());
+            }
+        }
+    }
+
+    @Transactional
+    public void deleteBrand(Long bid) {
+        brandMapper.deleteByPrimaryKey(bid);
+        brandMapper.deleteBrandCategory(bid);
     }
 }

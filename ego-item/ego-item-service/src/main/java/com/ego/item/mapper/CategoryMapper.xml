@@ -44,6 +44,10 @@
         delete from ssm_user where id=#{id}
     </delete>
 
+    <!--<select id="findCategoryByBid" resultType="com.ego.item.pojo.Category" parameterType="long">
+        select * from tb_category where id in (select category_id from tb_category_brand where brand_id=#{bid})
+    </select>-->
+
 
     <!--参数在map中传入SQL-->
     <!--映射封装修改部门的参数表map-->
