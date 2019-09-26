@@ -26,3 +26,6 @@ mybatis:
     log-impl:
       org.apache.ibatis.logging.stdout.StdOutImpl
   type-aliases-package: com.ego.item.pojo       #pojo别名
+# mapper-locations: com.ego.item.mapper/*.xml
+pagehelper:
+  page-size-zero: true

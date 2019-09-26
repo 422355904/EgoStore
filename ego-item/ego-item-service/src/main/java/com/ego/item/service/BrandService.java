@@ -6,10 +6,12 @@ import com.ego.item.pojo.Brand;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import tk.mybatis.mapper.entity.Example;
 
-import java.util.List;
 
 /**
  * @Author TheKing
@@ -24,10 +26,31 @@ public class BrandService {
     private BrandMapper brandMapper;
 
     public PageResult<Brand> getBrandByPage(Integer pageNo, Integer pageSize, String sortBy, Boolean descending, String key) {
-        //todo
-        PageHelper.startPage(pageNo,pageSize,descending);
+        //分页
+        PageHelper.startPage(pageNo, pageSize);
+        //关键字
+        Example example = new Example(Brand.class);
+        if (StringUtils.isNotBlank(key)) {
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andLike("name", "%" + key + "%");
+        }
+        //排序
+        if (StringUtils.isNotBlank(sortBy)) {
+            example.setOrderByClause(sortBy + " " + (descending ? "desc" : "asc"));
+        }
+        Page<Brand> page = (Page<Brand>) brandMapper.selectByExample(example);
+        return new PageResult<>(page.getTotal(), page);
+    }
 
-        Page<Brand> page = (Page<Brand>)brandMapper.selectByExample("");
-        return new PageResult<>(page.getTotal(),page);
+    @Transactional
+    public void saveBrand(Brand brand, Integer[] cids) {
+        //新增品牌
+        brandMapper.insert(brand);
+        //新增中间表，代码维护级联
+        if (null != cids) {
+            for (Integer cid : cids) {
+                brandMapper.saveBrandCategory(cid, brand.getId());
+            }
+        }
     }
 }

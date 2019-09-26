@@ -12,7 +12,7 @@ public class Brand {
 
   @Id
   @KeySql(useGeneratedKeys = true)
-  private long id;
+  private Long id;
   private String name;
   private String image;
   private String letter;

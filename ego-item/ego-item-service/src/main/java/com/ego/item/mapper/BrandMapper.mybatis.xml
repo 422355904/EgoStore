@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ego.item.mapper.BrandMapper">
+
+    <!--SQL语句的id要和dao层方法对应，否则通过反射找不到该方法-->
+
+    <!--SQL-->
+
+
+    <!--<insert id="saveBrandCategory">
+        insert into tb_category_brand(category_id, brand_id) values (#{cid},#{bid})
+    </insert>-->
+</mapper>

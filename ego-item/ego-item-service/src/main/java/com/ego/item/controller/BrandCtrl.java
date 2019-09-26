@@ -4,11 +4,9 @@ import com.ego.common.pojo.PageResult;
 import com.ego.item.pojo.Brand;
 import com.ego.item.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Author TheKing
@@ -42,6 +40,17 @@ public class BrandCtrl {
             return ResponseEntity.notFound().build();
         }
             return ResponseEntity.ok(pageResult);
+    }
+
+    @PostMapping
+    public ResponseEntity<Void>saveBrand(Brand brand,@RequestParam("cids") Integer[] cids){
+        try {
+            brandService.saveBrand(brand,cids);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
     }
 
 }
