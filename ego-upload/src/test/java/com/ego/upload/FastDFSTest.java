@@ -52,3 +52,6 @@ public class FastDFSTest {
         System.out.println(path);
     }
 }
+
+
+
