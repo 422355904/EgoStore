@@ -11,7 +11,7 @@ import javax.persistence.Table;
  * @Version 1.0
  * ⊰愤怒，并不会使你变强⊱
  */
-//@Data
+@Data
 @Table(name="tb_spu_detail")
 public class SpuDetail {
     @Id
@@ -22,52 +22,4 @@ public class SpuDetail {
     private String packingList;// 包装清单
     private String afterService;// 售后服务
 
-
-    public Long getSpuId() {
-        return spuId;
-    }
-
-    public void setSpuId(Long spuId) {
-        this.spuId = spuId;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getSpecTemplate() {
-        return specTemplate;
-    }
-
-    public void setSpecTemplate(String specTemplate) {
-        this.specTemplate = specTemplate;
-    }
-
-    public String getSpecifications() {
-        return specifications;
-    }
-
-    public void setSpecifications(String specifications) {
-        this.specifications = specifications;
-    }
-
-    public String getPackingList() {
-        return packingList;
-    }
-
-    public void setPackingList(String packingList) {
-        this.packingList = packingList;
-    }
-
-    public String getAfterService() {
-        return afterService;
-    }
-
-    public void setAfterService(String afterService) {
-        this.afterService = afterService;
-    }
 }

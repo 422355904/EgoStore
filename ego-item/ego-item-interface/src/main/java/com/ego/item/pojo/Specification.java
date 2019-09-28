@@ -12,7 +12,7 @@ import javax.persistence.Table;
  * ⊰愤怒，并不会使你变强⊱
  */
 @Data
-@Table(name = "tb_specification")
+@Table(name = "tb_specification") //规格参数
 public class Specification {
     @Id
     private Long categoryId;

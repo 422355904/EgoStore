@@ -11,7 +11,7 @@ import java.util.List;
  * @Version 1.0
  * ⊰愤怒，并不会使你变强⊱
  */
-//@Data
+@Data
 public class SpuBo extends Spu {
     @Transient
     private String categoryName;
@@ -22,35 +22,5 @@ public class SpuBo extends Spu {
     @Transient
     List<Sku> skus;// sku列表
 
-    public String getCategoryName() {
-        return categoryName;
-    }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-    }
-
-    public String getBrandName() {
-        return brandName;
-    }
-
-    public void setBrandName(String brandName) {
-        this.brandName = brandName;
-    }
-
-    public SpuDetail getSpuDetail() {
-        return spuDetail;
-    }
-
-    public void setSpuDetail(SpuDetail spuDetail) {
-        this.spuDetail = spuDetail;
-    }
-
-    public List<Sku> getSkus() {
-        return skus;
-    }
-
-    public void setSkus(List<Sku> skus) {
-        this.skus = skus;
-    }
 }
