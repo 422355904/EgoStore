@@ -4,9 +4,10 @@ import com.ego.common.pojo.PageResult;
 import com.ego.item.pojo.Brand;
 import com.ego.item.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @Author TheKing
@@ -87,6 +88,18 @@ public class BrandCtrl {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    @GetMapping("cid/{cid}")
+    public ResponseEntity<List<Brand>> queryBrandListByCid(@PathVariable("cid") Long cid) {
+        List<Brand> result = brandService.findListByCid(cid);
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("list/ids")
+    public ResponseEntity<List<Brand>> queryListByIds(@RequestParam("ids") List<Long> ids){
+        return ResponseEntity.ok(brandService.findListByIds(ids));
+
     }
 
 }

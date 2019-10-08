@@ -97,5 +97,11 @@ public class CategoryCtrl {
     }
 
 
+    @GetMapping("list/ids")
+    public ResponseEntity<List<Category>> queryListByIds(@RequestParam("ids") List<Long> ids){
+        return ResponseEntity.ok(categoryService.findListByIds(ids));
+    }
+
+
 
 }

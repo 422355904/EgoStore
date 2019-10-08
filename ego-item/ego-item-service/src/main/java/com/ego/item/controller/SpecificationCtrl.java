@@ -25,7 +25,7 @@ public class SpecificationCtrl {
      * @return
      */
     @GetMapping("{cid}")
-    public ResponseEntity<String> queryByCid(@PathVariable("cid") Long cid) {
+    public ResponseEntity<String> querySpecByCid(@PathVariable("cid") Long cid) {
         try {
             Specification spec = specService.queryByCid(cid);
             return ResponseEntity.ok(spec.getSpecifications());

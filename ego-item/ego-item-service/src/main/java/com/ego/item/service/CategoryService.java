@@ -65,4 +65,7 @@ public class CategoryService {
         List<Category>categoryList=categoryMapper.findCategoryByBid(bid);
         return categoryList;
     }
+    public List<Category> findListByIds(List<Long> ids) {
+        return categoryMapper.selectByIdList(ids);
+    }
 }

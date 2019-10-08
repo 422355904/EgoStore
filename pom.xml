@@ -10,6 +10,7 @@
         <module>ego-item</module>
         <module>ego-common</module>
         <module>ego-upload</module>
+        <module>ego-search</module>
     </modules>
 
     <parent>

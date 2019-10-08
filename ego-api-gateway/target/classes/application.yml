@@ -18,8 +18,9 @@ zuul:
   routes:
     item-service: /item/** # 将商品微服务映射到/item/**
     upload-service: /upload/** # 将上传文件微服务映射到/upload/**
+    search-service: /search/** # 将搜索微服务映射到/search/**
 
-  ignored-patterns: /**/upload/** #禁用某个路由
+  ignored-patterns: /**/upload/** #禁用某个路由 上传服务绕过网关，IO操作耗时耗资源，避免阻塞
 
 
 ribbon:

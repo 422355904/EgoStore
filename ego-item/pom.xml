@@ -9,13 +9,12 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.ego.service</groupId>
+    <groupId>com.ego.item</groupId>
     <artifactId>ego-item</artifactId>
     <packaging>pom</packaging>
     <modules>
         <module>ego-item-interface</module>
         <module>ego-item-service</module>
     </modules>
-
 
 </project>

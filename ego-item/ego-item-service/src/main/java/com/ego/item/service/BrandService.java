@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.List;
+
 
 /**
  * @Author TheKing
@@ -75,5 +77,13 @@ public class BrandService {
     public void deleteBrand(Long bid) {
         brandMapper.deleteByPrimaryKey(bid);
         brandMapper.deleteBrandCategory(bid);
+    }
+
+    public List<Brand> findListByCid(Long cid) {
+        return  brandMapper.getGoodsBrandByCid(cid);
+    }
+
+    public List<Brand> findListByIds(List<Long> ids) {
+        return brandMapper.selectByIdList(ids);
     }
 }

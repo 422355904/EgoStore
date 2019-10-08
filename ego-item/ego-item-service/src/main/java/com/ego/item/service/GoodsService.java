@@ -8,11 +8,11 @@ import com.github.pagehelper.PageHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
-import java.io.StringReader;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -57,7 +57,7 @@ public class GoodsService {
         }
             //关键字条件
         if (StringUtils.isNotBlank(key)){
-            criteria.orLike("title","%"+key+"%")
+            criteria.andLike("title","%"+key+"%")
                     .orLike("subTitle","%"+key+"%");
         }
             //是否上架条件
@@ -74,8 +74,9 @@ public class GoodsService {
             //属性拷贝
             BeanUtils.copyProperties(spu, spuBo);
             //设置品牌名
-            Long brandId = spuBo.getBrandId();
+            Long brandId = spu.getBrandId();
             Brand brand = brandMapper.selectByPrimaryKey(brandId);
+            //设置spu品牌名字
             spuBo.setBrandName(brand.getName());
             //拼接种类字符串
             StringBuilder categoryNames=new StringBuilder("");
@@ -84,7 +85,8 @@ public class GoodsService {
                 categoryNames.append(category.getName()+"/");
             }
             categoryNames.deleteCharAt(categoryNames.lastIndexOf("/"));
-            spuBo.setCategoryName(categoryNames.toString());
+            //设置spu分类名字
+            spuBo.setCategoryNames(categoryNames.toString());
             return spuBo;
         }).collect(Collectors.toList());
         return new PageResult<SpuBo>(pageInfo.getTotal(),spuBoList);
@@ -168,5 +170,15 @@ public class GoodsService {
         for (Sku sku : skuList) {
            stockMapper.deleteByPrimaryKey(sku.getId());
         }
+    }
+
+    public List<Sku> findSkusBySpuId(Long spuId) {
+        Sku sku = new Sku();
+        sku.setSpuId(spuId);
+        return skuMapper.select(sku);
+    }
+
+    public SpuDetail findSpuDetailBySpuId(Long spuId) {
+        return spuDetailMapper.selectByPrimaryKey(spuId);
     }
 }
