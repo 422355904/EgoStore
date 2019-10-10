@@ -11,6 +11,16 @@ spring:
     hikari:
       maximum-pool-size: 30
       minimum-idle: 10
+  rabbitmq:
+    host: 192.168.30.128 # RabbitMQ地址
+    username: ego # RabbitMQ用户名
+    password: ego # RabbitMQ密码
+    virtual-host: /ego  # RabbitMQ虚拟主机名
+    template:
+      exchange: ego.item.exchange # 缺省的交换机名称，此处配置后，发送消息如果不指定交换机就会使用这个
+      retry:
+        enabled: false #失败重试(暂时关闭)
+    publisher-confirms: true # 生产者确认机制，确保消息会正确发送，如果发送失败会有错误回执，从而触发重试
 eureka:
   client:
     service-url:

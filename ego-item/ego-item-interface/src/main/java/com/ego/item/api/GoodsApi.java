@@ -37,4 +37,12 @@ public interface GoodsApi {
 
     @GetMapping("spec")
     public ResponseEntity<String> querySpecificationBySpuId(@RequestParam("spuId")Long spuId);
+
+    /**
+     * 根据id查询商品
+     * @param id
+     * @return
+     */
+    @GetMapping("/spubo/{id}")
+    SpuBo queryGoodsById(@PathVariable("id") Long id);
 }

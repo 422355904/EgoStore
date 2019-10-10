@@ -3,6 +3,7 @@ package com.ego.item.pojo;
 import lombok.Data;
 
 import javax.persistence.Transient;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,6 +22,13 @@ public class SpuBo extends Spu {
     private SpuDetail spuDetail;// 商品详情
     @Transient
     private List<Sku> skus;// sku列表
+
+    public SpuBo() {
+    }
+
+    public SpuBo(Long id,Long brandId, Long cid1, Long cid2, Long cid3, String title, String subTitle, Boolean saleable, Boolean valid, Date createTime, Date lastUpdateTime) {
+        super(id,brandId, cid1, cid2, cid3, title, subTitle, saleable, valid, createTime, lastUpdateTime);
+    }
 
     public String getCategoryNames() {
         return categoryNames;

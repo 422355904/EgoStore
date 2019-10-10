@@ -1,6 +1,7 @@
 package com.ego.item.mapper;
 
 import com.ego.item.pojo.Stock;
+import tk.mybatis.mapper.additional.idlist.SelectByIdListMapper;
 import tk.mybatis.mapper.common.Mapper;
 
 /**
@@ -9,6 +10,6 @@ import tk.mybatis.mapper.common.Mapper;
  * @Version 1.0
  * ⊰愤怒，并不会使你变强⊱
  */
-public interface StockMapper extends Mapper<Stock> {
+public interface StockMapper extends Mapper<Stock>, SelectByIdListMapper<Stock,Long> {
 
 }

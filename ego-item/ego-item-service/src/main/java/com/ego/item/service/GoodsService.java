@@ -5,7 +5,10 @@ import com.ego.item.mapper.*;
 import com.ego.item.pojo.*;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.amqp.AmqpException;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,6 +29,7 @@ import java.util.stream.Collectors;
  * ⊰愤怒，并不会使你变强⊱
  */
 @Service
+@Slf4j
 public class GoodsService {
 
     @Autowired
@@ -38,6 +44,9 @@ public class GoodsService {
     private SkuMapper skuMapper;
     @Autowired
     private StockMapper stockMapper;
+    @Autowired
+    private AmqpTemplate amqpTemplate;
+
 
     /**
      * 商品分页
@@ -155,6 +164,8 @@ public class GoodsService {
         return spuBo;
     }
 
+
+
     @Transactional
     public void deleteGoods(Long spuId) {
         //删除Spu
@@ -180,5 +191,89 @@ public class GoodsService {
 
     public SpuDetail findSpuDetailBySpuId(Long spuId) {
         return spuDetailMapper.selectByPrimaryKey(spuId);
+    }
+
+
+    public SpuBo findSpuBoById(Long spuId) {
+
+        SpuBo spuBO = new SpuBo();
+        Spu spu = spuMapper.selectByPrimaryKey(spuId);
+        BeanUtils.copyProperties(spu, spuBO);
+
+        //spuDetail
+        SpuDetail spuDetail = spuDetailMapper.selectByPrimaryKey(spuId);
+        spuBO.setSpuDetail(spuDetail);
+
+        //skus
+        Sku sku = new Sku();
+        sku.setSpuId(spuId);
+
+        List<Sku> skus = skuMapper.select(sku);
+        spuBO.setSkus(skus);
+
+        //类名名字
+        String categoryName="";
+        List<Category> categoryList = categoryMapper.selectByIdList(Arrays.asList(spuBO.getCid1(), spuBO.getCid2(), spuBO.getCid3()));
+        for (Category category : categoryList) {
+            categoryName += category.getName() + "/";
+        }
+        spuBO.setCategoryNames(categoryName);
+
+        spuBO.setBrandName(brandMapper.selectByPrimaryKey(spuBO.getBrandId()).getName());
+
+        return spuBO;
+    }
+
+
+    /**
+     * 修改商品
+     */
+    @Transactional
+    public void update(SpuBo spuBo) {
+        //1.修改spu
+        spuBo.setLastUpdateTime(new Date());
+        spuMapper.updateByPrimaryKeySelective(spuBo);
+        //2.修改spu detail
+        SpuDetail spuDetail = spuBo.getSpuDetail();
+        spuDetailMapper.updateByPrimaryKeySelective(spuDetail);
+        //3.刪除以前的sku以及stock
+        Sku skuExample = new Sku();
+        skuExample.setSpuId(spuBo.getId());
+        List<Sku> skuList = skuMapper.select(skuExample);
+        skuList.forEach(s -> {
+            skuMapper.deleteByPrimaryKey(s);
+            stockMapper.deleteByPrimaryKey(s.getId());
+        });
+
+        //4.添加sku&stock
+        if (spuBo.getSkus() != null && spuBo.getSkus().size() > 0) {
+            spuBo.getSkus().forEach(sku -> {
+                sku.setId(null);
+                sku.setCreateTime(spuBo.getCreateTime());
+                sku.setLastUpdateTime(spuBo.getCreateTime());
+                sku.setSpuId(spuBo.getId());
+                skuMapper.insertSelective(sku);
+
+                sku.getStock().setSkuId(sku.getId());
+                stockMapper.insertSelective(sku.getStock());
+            });
+        }
+
+        //发消息到mq
+        sendMessage("item.update", spuBo.getId());
+
+    }
+
+    /**
+     * 使用RabbitMQ进行数据同步
+     * @param type queue类型，便于topic适配
+     * @param spuid
+     */
+    public void sendMessage(String type, Long spuid) {
+        try {
+            amqpTemplate.convertAndSend(type,spuid);
+        } catch (AmqpException e) {
+            log.error("{}商品消息发送异常，商品id：{}", type, spuid, e);
+        }
     }
 }

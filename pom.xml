@@ -11,6 +11,8 @@
         <module>ego-common</module>
         <module>ego-upload</module>
         <module>ego-search</module>
+        <module>ego-goods-web</module>
+        <module>ego-user</module>
     </modules>
 
     <parent>

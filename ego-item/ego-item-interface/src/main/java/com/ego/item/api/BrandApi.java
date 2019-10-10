@@ -32,4 +32,6 @@ public interface BrandApi {
 
     @GetMapping("list/ids")
     public ResponseEntity<List<Brand>> queryListByIds(@RequestParam("ids") List<Long> ids);
+
+
 }
