@@ -110,4 +110,18 @@ public class UserSerive implements RabbitTemplate.ConfirmCallback {
     public void confirm(CorrelationData correlationData, boolean b, String s) {
         log.info("MQ成功接收到手机号[{}]消息",correlationData.getId());
     }
+
+    public User queryUser(String username, String password) {
+        User user=new User();
+        user.setUsername(username);
+        //根据表单填写的账号查询到用户
+        User userInDB = userMapper.selectOne(user);
+        if (null==userInDB){
+            return null;
+        }
+        //判断表单密码是否正确
+        Boolean result = CodecUtils.passwordConfirm(username + password,userInDB.getPassword());
+
+        return result?userInDB:null;
+    }
 }

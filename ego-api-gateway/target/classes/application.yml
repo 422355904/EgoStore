@@ -20,9 +20,12 @@ zuul:
     upload-service: /upload/** # 将上传文件微服务映射到/upload/**
     search-service: /search/** # 将搜索微服务映射到/search/**
     user-service: /user/** # 将用户微服务映射到/user/**
+    auth-service: /auth/** # 授权中心微服务
 
   ignored-patterns: /**/upload/** #禁用某个路由 上传服务绕过网关，IO操作耗时耗资源，避免阻塞
-
+  add-host-header: true # 携带请求本身的Head头信息
+  sensitive-headers: # 配置禁止使用的头信息，sensitiveHeaders去掉了默认的"Cookie", "Set-Cookie"
+    - Authorization
 
 ribbon:
   ConnectTimeout: 2500 # 连接超时时间(ms)
@@ -37,3 +40,15 @@ hystrix:
         isolation:
           thread:
             timeoutInMillisecond: 100000 # 熔断超时时长：10000ms
+ego:
+  jwt:
+    pubKeyPath: D:\\JavaStudy\\Course3\\7-ego\\temp\\rsa.pub # 公钥地址
+    cookieName: EGO_TOKEN # cookie的名称
+  filter:
+    allowPaths: #拦截白名单
+      - /api/auth
+      - /api/search
+      - /api/user/register
+      - /api/user/check
+      - /api/user/send
+      - /api/item

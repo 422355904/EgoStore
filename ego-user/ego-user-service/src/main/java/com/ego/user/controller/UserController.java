@@ -50,4 +50,18 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    /**
+     * 校验用户登录
+     * @param username
+     * @param password
+     * @return
+     */
+    @GetMapping("query")
+    public ResponseEntity<User> queryUser(@RequestParam("username") String username,@RequestParam("password") String password){
+        User user=userSerive.queryUser(username,password);
+        if (null==user){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return  ResponseEntity.ok(user);
+    }
 }

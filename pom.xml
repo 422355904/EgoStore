@@ -14,6 +14,7 @@
         <module>ego-goods-web</module>
         <module>ego-user</module>
         <module>ego-sms-service</module>
+        <module>ego-auth</module>
     </modules>
 
     <parent>
