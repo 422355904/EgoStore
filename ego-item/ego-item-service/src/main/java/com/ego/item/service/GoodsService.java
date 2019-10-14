@@ -276,4 +276,8 @@ public class GoodsService {
             log.error("{}商品消息发送异常，商品id：{}", type, spuid, e);
         }
     }
+
+    public Sku querySkuById(Long skuId) {
+        return skuMapper.selectByPrimaryKey(skuId);
+    }
 }

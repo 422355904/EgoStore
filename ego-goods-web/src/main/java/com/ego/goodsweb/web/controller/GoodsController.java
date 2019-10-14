@@ -49,7 +49,8 @@ public class GoodsController {
         model.addAllAttributes(modelMap);
         //生成静态页面
         threadPool.submit(() -> {
-            goodsHtmlService.createHtml(spuId);
+            // TODO 暂时关闭生成静态页面
+            //goodsHtmlService.createHtml(spuId);
         });
 
         return "item";

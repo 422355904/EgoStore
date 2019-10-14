@@ -133,4 +133,13 @@ public class GoodsCtrl {
         }
         return ResponseEntity.ok(spuBo);
     }
+
+    @GetMapping("sku/{skuId}")
+    ResponseEntity<Sku>  querySkuById(@PathVariable("skuId") Long skuId){
+        Sku sku=goodsService.querySkuById(skuId);
+        if (sku == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(sku);
+    };
 }

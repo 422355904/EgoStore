@@ -21,6 +21,7 @@ zuul:
     search-service: /search/** # 将搜索微服务映射到/search/**
     user-service: /user/** # 将用户微服务映射到/user/**
     auth-service: /auth/** # 授权中心微服务
+    cart-service: /cart/** # 购物车微服务
 
   ignored-patterns: /**/upload/** #禁用某个路由 上传服务绕过网关，IO操作耗时耗资源，避免阻塞
   add-host-header: true # 携带请求本身的Head头信息

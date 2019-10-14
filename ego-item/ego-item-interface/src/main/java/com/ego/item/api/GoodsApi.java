@@ -43,6 +43,15 @@ public interface GoodsApi {
      * @param id
      * @return
      */
-    @GetMapping("/spubo/{id}")
+    @GetMapping("spubo/{id}")
     SpuBo queryGoodsById(@PathVariable("id") Long id);
+
+    /**
+     * 根据 skuId 查询sku
+     * @param skuId
+     * @return
+     */
+    @GetMapping("sku/{skuId}")
+    ResponseEntity<Sku>  querySkuById(@PathVariable("skuId") Long skuId);
+
 }
