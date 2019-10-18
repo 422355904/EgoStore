@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletRequest;
  * @Date 2019/10/11 18:17
  * @Version 1.0
  * ⊰愤怒，并不会使你变强⊱
+ *
+ * 利用过滤器实现鉴权
  */
 @Component
 @EnableConfigurationProperties({JwtProperties.class, FilterProperties.class})

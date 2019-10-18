@@ -1,8 +1,10 @@
 package com.ego.item.controller;
 
+import com.ego.common.pojo.CartDto;
 import com.ego.common.pojo.PageResult;
 import com.ego.item.pojo.*;
 import com.ego.item.service.GoodsService;
+import com.ego.item.service.SeckillGoodsService;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,7 @@ public class GoodsCtrl {
 
     @Autowired
     private GoodsService goodsService;
+
 
 
     //商品分页
@@ -142,4 +145,35 @@ public class GoodsCtrl {
         }
         return ResponseEntity.ok(sku);
     };
+
+    /**
+     * 减库存
+     * @param cartDtos
+     * @return
+     */
+    @PostMapping("stock/decrease")
+    public ResponseEntity<Void> decreaseStock(@RequestBody List<CartDto> cartDtos){
+        goodsService.decreaseStock(cartDtos);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @GetMapping("stock/skuIds")
+    public ResponseEntity<List<Stock>> queryStockList(@RequestParam("skuIds") List<Long> skuIds){
+        List<Stock> result = goodsService.findStockList(skuIds);
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("stock/{skuId}")
+    public ResponseEntity<Stock> queryStockBySkuId(@PathVariable("skuId") Long skuId){
+        Stock result = goodsService.getStockBySkuId(skuId);
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("stock/seckill/decrease")
+    public ResponseEntity<Void> decreaseSeckillStock(@RequestBody CartDto cartDTO){
+        goodsService.decreaseSeckillStock(cartDTO);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+
 }

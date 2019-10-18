@@ -42,7 +42,7 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.SC_UNAUTHORIZED).build();
         }
         //将token存入cookie
-        CookieUtils.setCookie(request, response, jwtProperties.getCookieName(), token, jwtProperties.getExpire(), true);
+        CookieUtils.setCookie(request, response, jwtProperties.getCookieName(), token, jwtProperties.getCookieMaxAge(), true);
 
         return ResponseEntity.status(HttpStatus.SC_OK).build();
     }

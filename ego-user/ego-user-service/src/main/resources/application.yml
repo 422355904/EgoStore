@@ -37,3 +37,7 @@ eureka:
 # Mybatis
 mybatis:
   type-aliases-package: com.ego.user.pojo
+ego:
+  jwt:
+    cookieName: EGO_TOKEN
+    pubKeyPath: D:\\JavaStudy\\Course3\\7-ego\\temp\\rsa.pub # 公钥地址

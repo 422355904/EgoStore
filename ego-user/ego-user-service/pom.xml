@@ -49,6 +49,11 @@
             <artifactId>ego-user-interface</artifactId>
             <version>${ego.latest.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.ego.auth</groupId>
+            <artifactId>ego-auth-common</artifactId>
+            <version>${ego.latest.version}</version>
+        </dependency>
     </dependencies>
 
 

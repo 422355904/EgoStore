@@ -1,9 +1,12 @@
 package com.ego.user.controller;
 
+import com.ego.auth.pojo.UserInfo;
+import com.ego.auth.utils.JwtUtils;
+import com.ego.user.config.JwtProperties;
 import com.ego.user.pojo.User;
 import com.ego.user.service.UserSerive;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,10 +20,13 @@ import javax.validation.Valid;
  * ⊰愤怒，并不会使你变强⊱
  */
 @RestController
+@EnableConfigurationProperties(JwtProperties.class)
 public class UserController {
 
     @Autowired
     private UserSerive userSerive;
+    @Autowired
+    private JwtProperties jwtProperties;
 
     /**
      * 根据类型校验用户名是否存在，校验手机号发送验证码
@@ -63,5 +69,17 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return  ResponseEntity.ok(user);
+    }
+
+    // 有token，曾经登录过，查询用户信息
+    @GetMapping("{token}")
+    public ResponseEntity<UserInfo> a(@PathVariable("token") String token){
+
+        try {
+            UserInfo userInfo = JwtUtils.getInfoFromToken(token, jwtProperties.getPublicKey());
+            return  ResponseEntity.ok(userInfo);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 }

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ego.order.mapper.OrderMapper">
+
+    <!--SQL语句的id要和dao层方法对应，否则通过反射找不到该方法-->
+    <resultMap id="statusMap" type="Order">
+        <id property="orderId" column="order_id"/>
+        <association property="orderStatus" javaType="com.ego.order.pojo.OrderStatus">
+            <id property="orderId" column="order_id"/>
+            <id property="status" column="status"/>
+            <result property="createTime" column="create_time"/>
+            <result property="paymentTime" column="payment_time"/>
+        </association>
+    </resultMap>
+
+    <!--SQL-->
+    <select id="selectByStatus" resultMap="statusMap" parameterType="int">
+        select o.*,os.`status`,os.payment_time from tb_order o,tb_order_status os where o.order_id=os.order_id
+        <if test="status != null">
+            and os.status = #{status}
+        </if>
+    </select>
+
+    <!--<insert id="saveBrandCategory">
+        insert into tb_category_brand(category_id, brand_id) values (#{cid},#{bid})
+    </insert>-->
+</mapper>

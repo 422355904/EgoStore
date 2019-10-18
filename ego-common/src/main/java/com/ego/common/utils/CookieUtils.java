@@ -11,8 +11,11 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 
 /**
- *
  * Cookie 工具类
+ * @Author TheKing
+ * @Date 2019/10/11 16:24
+ * @Version 1.0
+ * ⊰愤怒，并不会使你变强⊱
  */
 public final class CookieUtils {
 

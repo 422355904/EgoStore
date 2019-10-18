@@ -1,5 +1,8 @@
 package com.ego.item.service;
 
+import com.ego.common.enums.ExceptionEnum;
+import com.ego.common.exception.PayException;
+import com.ego.common.pojo.CartDto;
 import com.ego.common.pojo.PageResult;
 import com.ego.item.mapper.*;
 import com.ego.item.pojo.*;
@@ -280,4 +283,35 @@ public class GoodsService {
     public Sku querySkuById(Long skuId) {
         return skuMapper.selectByPrimaryKey(skuId);
     }
+
+
+    @Transactional
+    public void decreaseStock(List<CartDto> cartDtos) {
+        for (CartDto cartDto : cartDtos) {
+
+            int count = stockMapper.decreaseStock(cartDto.getSkuId(), cartDto.getNum());
+
+            if (count != 1) {
+                throw new PayException(ExceptionEnum.STOCK_NOT_ENOUGH);
+            }
+        }
+    }
+
+
+    public List<Stock> findStockList(List<Long> skuIds) {
+        return stockMapper.selectByIdList(skuIds);
+    }
+
+    public Stock getStockBySkuId(Long skuId) {
+        return stockMapper.selectByPrimaryKey(skuId);
+    }
+
+    @Transactional
+    public void decreaseSeckillStock(CartDto cartDto) {
+        int count = stockMapper.decreaseSeckillStock(cartDto.getSkuId(), cartDto.getNum());
+        if (count != 1) {
+            throw new PayException(ExceptionEnum.STOCK_NOT_ENOUGH);
+        }
+    }
+
 }

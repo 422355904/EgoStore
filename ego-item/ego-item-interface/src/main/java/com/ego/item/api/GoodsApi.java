@@ -1,9 +1,11 @@
 package com.ego.item.api;
 
+import com.ego.common.pojo.CartDto;
 import com.ego.common.pojo.PageResult;
 import com.ego.item.pojo.Brand;
 import com.ego.item.pojo.Sku;
 import com.ego.item.pojo.SpuBo;
+import com.ego.item.pojo.Stock;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,4 +56,28 @@ public interface GoodsApi {
     @GetMapping("sku/{skuId}")
     ResponseEntity<Sku>  querySkuById(@PathVariable("skuId") Long skuId);
 
+    /**
+     * 减库存
+     * @param cartDTOS
+     */
+    @PostMapping("stock/decrease")
+    void decreaseStock(@RequestBody List<CartDto> cartDTOS);
+
+    /**
+     * 根据skuIds查询库存
+     * @param skuIds
+     * @return
+     */
+    @GetMapping("stock/skuIds")
+    public ResponseEntity<List<Stock>> queryStockList(@RequestParam("skuIds") List<Long> skuIds);
+
+    @GetMapping("stock/{skuId}")
+    public ResponseEntity<Stock> queryStockBySkuId(@PathVariable("skuId") Long skuId);
+
+    /**
+     * 减秒杀库存
+     * @param cartDTO
+     */
+    @PostMapping("stock/seckill/decrease")
+    void decreaseSeckillStock(@RequestBody CartDto cartDTO);
 }

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -96,5 +97,11 @@ public class CartService {
         cart.setNum(num);
         //重新存入Redis
         carts.put(cart.getSkuId().toString(), JsonUtils.serialize(cart));
+    }
+
+    public void deleteCart(Map map) {
+        // TODO: 2019/10/15 删除Redis购物车
+        map.get("skuIds");
+        map.get("userId");
     }
 }
