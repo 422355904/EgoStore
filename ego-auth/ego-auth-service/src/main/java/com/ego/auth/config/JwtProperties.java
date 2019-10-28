@@ -2,6 +2,7 @@ package com.ego.auth.config;
 
 import com.ego.auth.utils.RsaUtils;
 import lombok.Data;
+import org.bouncycastle.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -10,6 +11,8 @@ import javax.annotation.PostConstruct;
 import java.io.File;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * @Author TheKing
@@ -45,7 +48,7 @@ public class JwtProperties {
             // 获取公钥和私钥
             this.publicKey = RsaUtils.getPublicKey(pubKeyPath);
             this.privateKey = RsaUtils.getPrivateKey(priKeyPath);
-        } catch (Exception e) {
+        } catch (Exception e){
             logger.error("初始化公钥和私钥失败！", e);
             throw new RuntimeException("初始化公钥和私钥失败！");
         }

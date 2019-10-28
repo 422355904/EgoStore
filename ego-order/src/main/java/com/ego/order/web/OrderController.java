@@ -101,8 +101,7 @@ public class OrderController {
     })
     public ResponseEntity<PageResult<Order>> queryOrderByPage(@RequestParam("page") Integer page,
                                                               @RequestParam("rows") Integer rows,
-                                                              @RequestParam(value="status",required = false) Integer status
-                                                              ) {
+                                                              @RequestParam(value="status",required = false) Integer status) {
         return ResponseEntity.ok(orderService.queryOrderByPage(page, rows,status));
     }
 
@@ -120,4 +119,5 @@ public class OrderController {
         orderService.updateStatus(id,status);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
     }
+
 }

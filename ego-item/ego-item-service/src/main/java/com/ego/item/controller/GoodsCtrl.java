@@ -4,7 +4,6 @@ import com.ego.common.pojo.CartDto;
 import com.ego.common.pojo.PageResult;
 import com.ego.item.pojo.*;
 import com.ego.item.service.GoodsService;
-import com.ego.item.service.SeckillGoodsService;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,8 +24,6 @@ public class GoodsCtrl {
 
     @Autowired
     private GoodsService goodsService;
-
-
 
     //商品分页
     @GetMapping("spu/page")

@@ -76,7 +76,7 @@
                 <artifactId>pagehelper-spring-boot-starter</artifactId>
                 <version>${pageHelper.starter.version}</version>
             </dependency>
-            <!-- mysql驱动 -->
+            <!-- mysql 驱动 -->
             <dependency>
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>

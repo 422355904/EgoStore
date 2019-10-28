@@ -198,6 +198,7 @@ public class SeckillServiceImpl implements SeckillService {
 
 
 
+
     /**
      * 验证秒杀地址
      * @param goodsId
